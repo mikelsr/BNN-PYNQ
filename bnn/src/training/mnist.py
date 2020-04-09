@@ -60,6 +60,9 @@ from pylearn2.utils import serial
 
 from collections import OrderedDict
 
+
+SIZE = 96
+
 if __name__ == "__main__":
     # Parse some command line options
     parser = ArgumentParser(
@@ -126,9 +129,9 @@ if __name__ == "__main__":
     # bc01 format    
     # Inputs in the range [-1,+1]
     # print("Inputs in the range [-1,+1]")
-    train_set.X = 2* train_set.X.reshape(-1, 1, 28, 28) - 1.
-    valid_set.X = 2* valid_set.X.reshape(-1, 1, 28, 28) - 1.
-    test_set.X = 2* test_set.X.reshape(-1, 1, 28, 28) - 1.
+    train_set.X = 2* train_set.X.reshape(-1, 1, SIZE, SIZE) - 1.
+    valid_set.X = 2* valid_set.X.reshape(-1, 1, SIZE, SIZE) - 1.
+    test_set.X = 2* test_set.X.reshape(-1, 1, SIZE, SIZE) - 1.
     
     # Binarise the inputs.
     train_set.X = np.where(train_set.X < 0, -1, 1).astype(theano.config.floatX)

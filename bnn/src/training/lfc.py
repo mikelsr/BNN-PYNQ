@@ -60,7 +60,7 @@ def genLfc(input, num_outputs, learning_parameters):
     dropout_hidden = learning_parameters.dropout_hidden
 
     mlp = lasagne.layers.InputLayer(
-            shape=(None, 1, 28, 28),
+            shape=(None, 1, 96, 96),
             input_var=input)
             
     mlp = lasagne.layers.DropoutLayer(
