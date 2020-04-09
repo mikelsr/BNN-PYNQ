@@ -50,7 +50,7 @@ if __name__ == "__main__":
     ActivationPrecisions_integer    = [2, 2, 2, 1]
     ActivationPrecisions_fractional = [0, 0, 0, 0]
 
-    classes = [str(x) for x in range(10)]
+    classes = [str(x) for x in range(6)]
 
     fth.convertFCNetwork(npzFile, targetDirBin, targetDirHLS, simdCounts, peCounts, \
         WeightsPrecisions_fractional, ActivationPrecisions_fractional, InputPrecisions_fractional,\

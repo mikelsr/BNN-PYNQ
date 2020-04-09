@@ -79,7 +79,7 @@ if __name__ == "__main__":
     print("weight_bits = "+str(learning_parameters.weight_bits))
 
     # BN parameters
-    batch_size = 100
+    batch_size = 8
     print("batch_size = "+str(batch_size))
     # alpha is the exponential moving average factor
     # alpha = .15
@@ -89,7 +89,7 @@ if __name__ == "__main__":
     print("epsilon = "+str(learning_parameters.epsilon))
     
     # Training parameters
-    num_epochs = 1000
+    num_epochs = 50  # 1000
     print("num_epochs = "+str(num_epochs))
     
     # Dropout parameters
@@ -119,16 +119,16 @@ if __name__ == "__main__":
     
     print('Loading MNIST dataset...')
     
-    train_set = MNIST(which_set= 'train', start=0, stop = 166, center = False)
-    valid_set = MNIST(which_set= 'train', start=166, stop = 166+48, center = False)
-    test_set = MNIST(which_set= 'test', center = False)
+    train_set = MNIST(which_set='train', start=0, stop=156, center=False)
+    valid_set = MNIST(which_set='train', start=156, stop=166, center =False)
+    test_set = MNIST(which_set='test', center=False)
     
     # bc01 format    
     # Inputs in the range [-1,+1]
     # print("Inputs in the range [-1,+1]")
-    train_set.X = 2* train_set.X.reshape(-1, 1, 96, 96) - 1.
-    valid_set.X = 2* valid_set.X.reshape(-1, 1, 96, 96) - 1.
-    test_set.X = 2* test_set.X.reshape(-1, 1, 96, 96) - 1.
+    train_set.X = 2* train_set.X.reshape(-1, 1, 28, 28) - 1.
+    valid_set.X = 2* valid_set.X.reshape(-1, 1, 28, 28) - 1.
+    test_set.X = 2* test_set.X.reshape(-1, 1, 28, 28) - 1.
     
     # Binarise the inputs.
     train_set.X = np.where(train_set.X < 0, -1, 1).astype(theano.config.floatX)
