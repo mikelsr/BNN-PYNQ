@@ -160,7 +160,7 @@ if __name__ == "__main__":
     print("weight_bits = "+str(learning_parameters.weight_bits))
 
     # BN parameters
-    batch_size = 50
+    batch_size = 5
     print("batch_size = "+str(batch_size))
     # alpha is the exponential moving average factor
     learning_parameters.alpha = .1
@@ -206,8 +206,10 @@ if __name__ == "__main__":
     # Each sign has 30 duplicates of the same sign, but from different distances.
     # The models generalize much better if split the dataset up based on each sign,
     # rather than each image.
-    num_dupe = 30
+    #num_dupe = 30
+    num_dupe = 11  # 11 versions of each face
     num_diff = len(Yin) / num_dupe
+    print("num_diff: {}\nnum_dupe: {}\nXin.shape: {}".format(num_diff, num_dupe, Xin.shape))
     Xin = Xin.reshape([num_diff,num_dupe,Xin.shape[1],Xin.shape[2],Xin.shape[3]])
     Yin = Yin.reshape([num_diff,num_dupe])
     print(Xin.shape)
@@ -248,7 +250,7 @@ if __name__ == "__main__":
     train_set.y = train_set.y.reshape([train_set.y.shape[0]*train_set.y.shape[1]])
     valid_set.y = valid_set.y.reshape([valid_set.y.shape[0]*valid_set.y.shape[1]])
     test_set.y = test_set.y.reshape([test_set.y.shape[0]*test_set.y.shape[1]])
-    junk_class = True
+    junk_class = False
     if junk_class:
         Xj, Yj = get_junk_class(image_path + "/junk", image_width + oversize_pixels, num_outputs)
         num_junk = len(Yj)
@@ -303,9 +305,12 @@ if __name__ == "__main__":
     print("Test shape: "+str(test_set.X.shape))
     
     # Onehot the targets
-    train_set.y = np.float32(np.eye(num_outputs)[train_set.y])    
-    valid_set.y = np.float32(np.eye(num_outputs)[valid_set.y])
-    test_set.y = np.float32(np.eye(num_outputs)[test_set.y])
+    train_set.y = np.float32(np.eye(num_outputs)[[x-1 for x in train_set.y]])
+    # train_set.y = np.float32(np.eye(num_outputs)[train_set.y])
+    valid_set.y = np.float32(np.eye(num_outputs)[[x-1 for x in valid_set.y]])
+    # valid_set.y = np.float32(np.eye(num_outputs)[valid_set.y])
+    test_set.y = np.float32(np.eye(num_outputs)[[x-1 for x in test_set.y]])
+    # test_set.y = np.float32(np.eye(num_outputs)[test_set.y])
     
     # for hinge loss
     train_set.y = 2* train_set.y - 1.

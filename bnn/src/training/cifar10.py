@@ -62,6 +62,9 @@ from pylearn2.utils import serial
 
 from collections import OrderedDict
 
+from gtsrb import resize_and_format
+
+
 if __name__ == "__main__":
     # Parse some command line options
     parser = ArgumentParser(
@@ -115,6 +118,11 @@ if __name__ == "__main__":
     print("shuffle_parts = "+str(shuffle_parts))
     
     print('Loading CIFAR-10 dataset...')
+
+    image_width = 32
+    cropping_percentage = 0.25
+    oversize_pixels = int(image_width * cropping_percentage)
+    Xin, Yin = resize_and_format("GTSRB/Training", image_width + oversize_pixels)
     
     train_set = CIFAR10(which_set="train",start=0,stop = train_set_size)
     valid_set = CIFAR10(which_set="train",start=train_set_size,stop = 50000)
