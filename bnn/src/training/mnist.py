@@ -89,7 +89,7 @@ if __name__ == "__main__":
     print("epsilon = "+str(learning_parameters.epsilon))
     
     # Training parameters
-    num_epochs = 50  # 1000
+    num_epochs = 1000  # 1000
     print("num_epochs = "+str(num_epochs))
     
     # Dropout parameters
@@ -118,11 +118,11 @@ if __name__ == "__main__":
     print("shuffle_parts = "+str(shuffle_parts))
     
     print('Loading MNIST dataset...')
-    
-    train_set = MNIST(which_set='train', start=0, stop=156, center=False)
-    valid_set = MNIST(which_set='train', start=156, stop=166, center =False)
+    train_set = MNIST(which_set='train', start=0, stop=105, center=False)
+    valid_set = MNIST(which_set='train', start=105, stop=135, center=False)
     test_set = MNIST(which_set='test', center=False)
-    
+
+
     # bc01 format    
     # Inputs in the range [-1,+1]
     # print("Inputs in the range [-1,+1]")
@@ -141,9 +141,9 @@ if __name__ == "__main__":
     test_set.y = np.hstack(test_set.y)
     
     # Onehot the targets
-    train_set.y = np.float32(np.eye(10)[train_set.y])    
-    valid_set.y = np.float32(np.eye(10)[valid_set.y])
-    test_set.y = np.float32(np.eye(10)[test_set.y])
+    train_set.y = np.float32(np.eye(15)[train_set.y])
+    valid_set.y = np.float32(np.eye(15)[valid_set.y])
+    test_set.y = np.float32(np.eye(15)[test_set.y])
     
     # for hinge loss
     train_set.y = 2* train_set.y - 1.
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     target = T.matrix('targets')
     LR = T.scalar('LR', dtype=theano.config.floatX)
 
-    mlp = lfc.genLfc(input, 10, learning_parameters)
+    mlp = lfc.genLfc(input, 15, learning_parameters)
 
     train_output = lasagne.layers.get_output(mlp, deterministic=False)
     

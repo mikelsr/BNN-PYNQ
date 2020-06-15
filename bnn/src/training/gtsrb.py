@@ -207,7 +207,7 @@ if __name__ == "__main__":
     # The models generalize much better if split the dataset up based on each sign,
     # rather than each image.
     #num_dupe = 30
-    num_dupe = 11  # 11 versions of each face
+    num_dupe = 1
     num_diff = len(Yin) / num_dupe
     print("num_diff: {}\nnum_dupe: {}\nXin.shape: {}".format(num_diff, num_dupe, Xin.shape))
     Xin = Xin.reshape([num_diff,num_dupe,Xin.shape[1],Xin.shape[2],Xin.shape[3]])
@@ -301,8 +301,25 @@ if __name__ == "__main__":
         (test_set.X, test_set.y) = augmentors.random_crop(test_set.X, test_set.y, random_crop_range, random_crop_factor, cropped_size, extend=False)
 
     print("Train shape: "+str(train_set.X.shape))
+    print("Training Y:")
+    done = set()
+    for x in train_set.y:
+        if x not in done:
+            done.add(x)
+            print("\t{}".format(x))
     print("Valid shape: "+str(valid_set.X.shape))
+    print("Valid Y:")
+    for x in test_set.y:
+        if x not in done:
+            done.add(x)
+            print("\t{}".format(x))
     print("Test shape: "+str(test_set.X.shape))
+    print("Test Y:")
+    for x in valid_set.y:
+        if x not in done:
+            done.add(x)
+            print("\t{}".format(x))
+    #exit(1)
     
     # Onehot the targets
     train_set.y = np.float32(np.eye(num_outputs)[[x-1 for x in train_set.y]])
